@@ -3,6 +3,11 @@
 #include <string>
 #include <ncurses.h>
 
+#include "Character.h"
+#include "Being.h"
+#include "Player.h"
+#include "Enemy.h"
+
 using namespace std;
 
 char kin() {
@@ -11,45 +16,20 @@ char kin() {
 	return getch();
 }
 
-class Character {
-	public:
-		int x, y;
-		char skin;
+Player player;
 
-	void moveC() {
-		mvprintw(x, y, "%c", skin);
-	}
-};
-
-int main() {	
-	Character player;
-	player.x = 5;
-	player.y = 5;
-	player.skin = '@';
+int main() {
+	player.setPos(5, 5);
 
 	cbreak();
 	initscr();			/* Start curses mode 		  */
-	curs_set(0);
+	curs_set(0); // remove cursor
 	player.moveC();
 	refresh();			/* Print it on to the real screen */
 	while (true) {
 		char k = kin();
 		clear();
-		if (k == 'w') {
-			player.x--;
-			player.moveC(); // --x, y
-		} else if (k == 's') {
-			player.x++;
-			player.moveC(); // ++x, y
-		} else if (k == 'a') {
-			player.y--;
-			player.moveC(); // x, --y
-		} else if (k == 'd') {
-			player.y++;
-			player.moveC(); // x, ++y
-		} else {
-			player.moveC(); // x, y
-		}
+		player.handleInput(k);
 		refresh();
 	}
 	endwin();			/* End curses mode		  */
