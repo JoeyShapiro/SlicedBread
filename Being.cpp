@@ -5,6 +5,6 @@
 		int health;
 
 	void Being::moveC() {
-		mvprintw(x, y, "%c", skin);
+		mvwprintw(game, x, y, "%c", skin);
 	}
 //};

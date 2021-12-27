@@ -3,6 +3,7 @@
 
 #include "Character.h"
 #include <ncurses.h>
+#include "common.h"
 
 class Being : public Character {
 	public:
