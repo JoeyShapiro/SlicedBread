@@ -54,13 +54,12 @@ int main() {
 	while (true) {
 		char k = kin();
 		wclear(game);
+		player.handleInput(k); // find how to make them all the same (be in for loop and check if player)
 		for (int i = 0; i < row*col; i++)
 			isCharacter[i] = false;
 		isCharacter[player.x+player.y*col] = true; // 5 + 5 * col = 1D loc
 		for (int i=0; i<row*col; i++)
 			isCharacter[enemies[i].x+enemies[i].y*col] = true;
-		
-		player.handleInput(k); // find how to make them all the same (be in for loop and check if player)
 		for (int i = 0; i < row*col; i++) { // for (Enemy e : enemies) // does not work, causes overflow
 			if (enemies[i].x != -1) {
 				enemies[i].act(player, isCharacter, col);

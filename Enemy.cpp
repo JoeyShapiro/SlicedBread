@@ -12,7 +12,6 @@
 		for (int i=0; i<4; i++) {
 			int tmpx = possibleMoves[i][0];
 			int tmpy = possibleMoves[i][1];
-			mvwprintw(winLog, i,0, "%d", isCharacter[tmpx+tmpy*col]);
 			if (!isCharacter[tmpx + tmpy * col]) {
 				legalMoves[i][0] = tmpx;
 				legalMoves[i][1] = tmpy;
