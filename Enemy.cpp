@@ -1,4 +1,6 @@
 #include "Enemy.h"
+#include "common.h" // maybe have it return string instead
+#include "string"
 
 //class Enemy : public Being {
 	//public:
@@ -37,6 +39,8 @@
 
 		if (bestM[0] == player.x && bestM[1] == player.y) {
 			player.damage(1);
+			std::string log = "";
+			
 		} else {
 			x = bestM[0];
 			y = bestM[1];

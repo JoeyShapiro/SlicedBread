@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <ncurses.h>
+#include <queue>
 
 #include "Character.h"
 #include "Being.h"
@@ -17,12 +18,31 @@ char kin() {
 	return getch();
 }
 
-
 Player player;
 
 void reDrawStats() { // maybe in Player
-	mvwprintw(stats, 0, 0, "Player Stats");
-	mvwprintw(stats, 1, 0, "Health: %d", player.health);
+	mvwprintw(stats, 0, 1, "Player Stats");
+	mvwprintw(stats, 1, 1, "Health: %d", player.health);
+}
+
+void printQueue(queue<string> logs) { // abuses the rule used for enemy calling player
+	queue<string> tmpLogs = logs; // maybe make own, that can print and delete as needed
+	int i = 0;
+	while (!tmpLogs.empty()) {
+		i++;
+		mvwprintw(winLog, i, 1, "%s", tmpLogs.front().c_str());
+		tmpLogs.pop();
+	}
+}
+
+void enLog(queue<string>& logs, string s) {
+	int logSize = 6; // TODO find better place, maybe make class...
+	if (logs.size() >= logSize) {
+		logs.pop();
+		logs.push(s);
+	} else { // maybe change order
+		logs.push(s);
+	}
 }
 
 int main() {
@@ -36,8 +56,11 @@ int main() {
 
 	// place windows
 	game = newwin(row-8, col/2, 0, 0);
-	winLog = newwin(row/4, col, row-8, 0);
-	stats = newwin(row-8, col, 0, col/2);
+	winLog = newwin(row/3, col, row-8, 0);
+	stats = newwin(row-8, col/2, 0, col/2);
+	box(game, '*', '*');
+	box(winLog, '*', '*');
+	box(stats, '*', '*');
 
 	Character characters[row*col]; // could draw with matrix (x, y) but value is easy
 	Enemy enemies[row*col]; // TODO find how to make to one ^
@@ -63,9 +86,13 @@ int main() {
 	wrefresh(stats);
 	while (true) {
 		char k = kin();
+		enLog(logs, "hi");
 		wclear(game);
 		wclear(winLog);
 		wclear(stats);
+		box(game, '*', '*');
+		box(winLog, '*', '*');
+		box(stats, '*', '*');
 		player.handleInput(k); // find how to make them all the same (be in for loop and check if player)
 		for (int i = 0; i < row*col; i++)
 			isCharacter[i] = false;
@@ -79,6 +106,7 @@ int main() {
 			}
 		}
 		reDrawStats(); // should be here... i think
+		printQueue(logs);
 		wrefresh(game);
 		wrefresh(winLog);
 		wrefresh(stats);
