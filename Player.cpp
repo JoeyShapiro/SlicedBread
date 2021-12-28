@@ -4,6 +4,7 @@
 	//public: 
     Player::Player() {
 		skin = '@';
+		health = 100;
 	}
 
 	void Player::handleInput(char key) { // maybe make being (k, p) // has to be here ??
@@ -20,6 +21,10 @@
 			 //cerr << key << endl;
 		}
 		moveC(); // maybe move
+	}
+
+	void Player::damage(int dam) {
+		health -= dam;
 	}
 
 //};

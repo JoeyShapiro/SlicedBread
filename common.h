@@ -5,5 +5,6 @@
 
 extern WINDOW *game;
 extern WINDOW *winLog;
+extern WINDOW *stats;
 
 #endif

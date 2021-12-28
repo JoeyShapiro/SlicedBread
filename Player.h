@@ -8,6 +8,7 @@ class Player : public Being {
 
 	void handleInput(char key);
 
+	void damage(int dam);
 };
 
 #endif

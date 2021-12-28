@@ -10,7 +10,7 @@
 class Enemy : public Being {
 	public: Enemy();
 
-	void act(Player player, bool isCharacter[], int col);
+	void act(Player& player, bool isCharacter[], int col);
 };
 
 #endif
