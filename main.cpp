@@ -9,10 +9,9 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "common.h"
+#include "Cells.h"
 
 using namespace std;
-
-#define MAP_S 5
 
 char kin() {
 	int c = getch();
@@ -21,7 +20,6 @@ char kin() {
 }
 
 Player player;
-bool map[MAP_S][MAP_S];
 
 void reDrawStats() { // maybe in Player
 	mvwprintw(stats, 0, 1, "Player Stats");
@@ -40,6 +38,18 @@ void genMap() {
 		}
 	}
 	enLog(logs, "map generated");
+}
+
+void loadCell(bool isCharacter[]) {
+	//bool curCell = map[player.mapx][player.mapy];
+	for (int i=0; i<14; i++) {
+		for (int j=0; j<39; j++) {
+			if (LEFT[i][j] == ' ')
+				continue;
+			mvwprintw(game, i+1, j+1, "%c", LEFT[i][j]);
+			isCharacter[i+j*col] = true;
+		}
+	}
 }
 
 void printQueue(queue<string> logs) { // abuses the rule used for enemy calling player
@@ -122,7 +132,7 @@ int main() {
 		wclear(stats);
 		wclear(menu);
 		box(game, '*', '*');
-		mvwprintw(game, 0, col/(4)-7, "world - world");
+		mvwprintw(game, 0, col/(4)-7, "world - (%d, %d)", player.mapx, player.mapy);
 		box(winLog, '*', '*');
 		box(stats, '*', '*');
 		box(menu, '*', '*');
@@ -141,6 +151,7 @@ int main() {
 		reDrawStats(); // should be here... i think
 		reDrawMenu();
 		printQueue(logs);
+		//loadCell(isCharacter);
 		wrefresh(game);
 		wrefresh(winLog);
 		wrefresh(stats);

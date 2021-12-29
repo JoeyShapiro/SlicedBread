@@ -5,6 +5,8 @@
 #include <string>
 #include <queue>
 
+#define MAP_S 5
+
 extern WINDOW *game;
 extern WINDOW *winLog;
 extern WINDOW *stats;
@@ -12,6 +14,7 @@ extern WINDOW *menu;
 extern std::queue<std::string> logs;
 extern int row;
 extern int col;
+extern bool map[MAP_S][MAP_S];
 
 void enLog(std::queue<std::string>& logs, std::string s);
 
