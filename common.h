@@ -8,6 +8,9 @@
 extern WINDOW *game;
 extern WINDOW *winLog;
 extern WINDOW *stats;
-std::queue<std::string> logs;
+extern WINDOW *menu;
+extern std::queue<std::string> logs;
+
+void enLog(std::queue<std::string>& logs, std::string s);
 
 #endif

@@ -38,9 +38,10 @@
 		}
 
 		if (bestM[0] == player.x && bestM[1] == player.y) {
-			player.damage(1);
-			std::string log = "";
-			
+			int dam = 1;
+			player.damage(dam);
+			std::string log = "e: attacked @ for " + std::to_string(dam); // cant use format string :(
+			enLog(logs, log);
 		} else {
 			x = bestM[0];
 			y = bestM[1];
