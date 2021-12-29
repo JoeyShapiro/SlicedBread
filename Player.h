@@ -5,6 +5,8 @@
 
 class Player : public Being {
 	public: Player();
+	int mapx;
+	int mapy;
 
 	void handleInput(char key);
 

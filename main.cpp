@@ -21,8 +21,6 @@ char kin() {
 }
 
 Player player;
-int mapPx = 0; // here for now
-int mapPy = 0; // maybe each character, or map has character array, map array, because then would check each characeter in total array, rather than array in each map
 bool map[MAP_S][MAP_S];
 
 void reDrawStats() { // maybe in Player
@@ -54,24 +52,26 @@ void printQueue(queue<string> logs) { // abuses the rule used for enemy calling 
 	}
 }
 
-void reDrawMenu() {
+void reDrawMenu() { // TODO maybe change wchich is shown or recreate each time
 	string chosen = "map";
 	mvwprintw(menu, 0, 2, "menu - %s", chosen.c_str());
 	if (chosen == "map") {
 		for (int i=0; i<MAP_S; i++) {
 			for (int j=0; j<MAP_S; j++) {
-				if (map[i][j] and i == mapPx and j == mapPy) {
+				if (map[i][j] and i == player.mapx and j == player.mapy) {
 					mvwprintw(menu, i+1, j+1, "@");
 				} else if (map[i][j]) {
 					mvwprintw(menu, i+1, j+1, "?");
 				}
 			}
 		}
+		mvwprintw(menu, 1, MAP_S+2, "Legend");
+		mvwprintw(menu, 2, MAP_S+2, "@ Player");
+		mvwprintw(menu, 3, MAP_S+2, "? Unknown");
 	}
 }
 
 int main() {
-	int row, col;
 
 	// start ncurses
 	cbreak();

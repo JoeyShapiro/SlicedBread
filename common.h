@@ -10,6 +10,8 @@ extern WINDOW *winLog;
 extern WINDOW *stats;
 extern WINDOW *menu;
 extern std::queue<std::string> logs;
+extern int row;
+extern int col;
 
 void enLog(std::queue<std::string>& logs, std::string s);
 
