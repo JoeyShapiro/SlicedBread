@@ -12,13 +12,15 @@
 
 
 	void Player::handleInput(char key, bool isCharacter[]) { // maybe make being (k, p) // has to be here ??
-		if (key == 'w' && !isCharacter[y+(x-1)*39]) {
+		int arrx = x-1; // took a while to find, is char starts at 0, player starts at 1, maybe draw char, needs that place i think
+		int arry = y-1; // used to convert x and y to isChar array
+		if (key == 'w' && !isCharacter[arry+(arrx-1)*39]) {
 			x--; // --x, y
-		} else if (key == 's' && !isCharacter[y+(x+1)*39]) {
+		} else if (key == 's' && !isCharacter[arry+(arrx+1)*39]) {
 			x++; // ++x, y
-		} else if (key == 'a' && !isCharacter[(y-1)+x*39]) {
+		} else if (key == 'a' && !isCharacter[(arry-1)+arrx*39]) {
 			y--; // x, --y
-		} else if (key == 'd' && !isCharacter[(y+1)+x*39]) {
+		} else if (key == 'd' && !isCharacter[(arry+1)+arrx*39]) {
 			y++; // x, ++y
 		} else {
 			// x, y
@@ -32,7 +34,6 @@
 				else
 					test += ' ';
 			}
-			enLog(logs, test);
 		}
 		// check if player should move to new cell
 		if (x < 1) { // move moveC to main, then change map to it
