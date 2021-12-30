@@ -47,7 +47,7 @@ void loadCell(bool isCharacter[]) {
 			if (LEFT[i][j] == ' ')
 				continue;
 			mvwprintw(game, i+1, j+1, "%c", LEFT[i][j]);
-			isCharacter[i+j*col] = true;
+			isCharacter[j+i*39] = true; // i did col, but its not that large
 		}
 	}
 }
@@ -78,6 +78,9 @@ void reDrawMenu() { // TODO maybe change wchich is shown or recreate each time
 		mvwprintw(menu, 1, MAP_S+2, "Legend");
 		mvwprintw(menu, 2, MAP_S+2, "@ Player");
 		mvwprintw(menu, 3, MAP_S+2, "? Unknown");
+		mvwprintw(menu, 4, MAP_S+2, "e Enemy");
+		mvwprintw(menu, 5, MAP_S+2, "D Chest");
+		mvwprintw(menu, 6, MAP_S+2, "E Elite");
 	}
 }
 
@@ -111,7 +114,7 @@ int main() {
 	}
 
 	// prelim
-	enemies[0].setPos(1,1);
+	enemies[0].setPos(3,3);
 	for (int i = 0; i < row*col; i++) {
 		if (enemies[i].x != -1)
 			enemies[i].moveC();
@@ -136,12 +139,14 @@ int main() {
 		box(winLog, '*', '*');
 		box(stats, '*', '*');
 		box(menu, '*', '*');
-		player.handleInput(k); // find how to make them all the same (be in for loop and check if player)
+		loadCell(isCharacter); // has to be first so player can see it
+		player.handleInput(k, isCharacter); // find how to make them all the same (be in for loop and check if player)
 		for (int i = 0; i < row*col; i++)
 			isCharacter[i] = false;
 		//isCharacter[player.x+player.y*col] = true; // 5 + 5 * col = 1D loc
-		for (int i=0; i<row*col; i++)
-			isCharacter[enemies[i].x+enemies[i].y*col] = true;
+		for (int i=0; i<row*col; i++) {
+			isCharacter[enemies[i].y+enemies[i].x*col] = true; // YAY this caused error, x+y*col, made x go oob, removing made e stop traveling
+		} // but why did it change value, wait for ask, i bet it changed all to true which means 255, then -643...
 		for (int i = 0; i < row*col; i++) { // for (Enemy e : enemies) // does not work, causes overflow
 			if (enemies[i].x != -1) {
 				enemies[i].act(player, isCharacter, col);
@@ -151,7 +156,6 @@ int main() {
 		reDrawStats(); // should be here... i think
 		reDrawMenu();
 		printQueue(logs);
-		//loadCell(isCharacter);
 		wrefresh(game);
 		wrefresh(winLog);
 		wrefresh(stats);

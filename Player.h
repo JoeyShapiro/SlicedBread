@@ -8,7 +8,7 @@ class Player : public Being {
 	int mapx;
 	int mapy;
 
-	void handleInput(char key);
+	void handleInput(char key, bool isCharacter[]);
 
 	void damage(int dam);
 };

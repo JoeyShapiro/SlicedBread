@@ -15,7 +15,7 @@
 		for (int i=0; i<5; i++) {
 			int tmpx = possibleMoves[i][0];
 			int tmpy = possibleMoves[i][1];
-			if (!isCharacter[tmpx + tmpy * col]) {
+			if (!isCharacter[tmpy + tmpx * 39]) {
 				legalMoves[i][0] = tmpx;
 				legalMoves[i][1] = tmpy;
 			}
