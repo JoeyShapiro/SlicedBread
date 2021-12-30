@@ -15,7 +15,7 @@
 		for (int i=0; i<5; i++) {
 			int tmpx = possibleMoves[i][0];
 			int tmpy = possibleMoves[i][1];
-			if (!isCharacter[(tmpy+1) + (tmpx+1) * 39]) {
+			if (!isCharacter[(tmpy-1) + (tmpx-1) * 39]) {
 				legalMoves[i][0] = tmpx;
 				legalMoves[i][1] = tmpy;
 			}
@@ -37,6 +37,7 @@
 			}
 		}
 
+		// abs(bestM[0] - player.x) + abs(bestM[1] - player.y) == 0 // still doesnt work, just "juggles" instead
 		if (bestM[0] == player.x && bestM[1] == player.y) {
 			int dam = 1;
 			player.damage(dam);

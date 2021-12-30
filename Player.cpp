@@ -26,15 +26,6 @@
 			// x, y
 			 //cerr << key << endl;
 		}
-		for (int i=0; i<14; i++) {
-			std::string test = "";
-			for (int j=0; j<39; j++) {
-				if (isCharacter[j+i*39])
-					test += '1';
-				else
-					test += ' ';
-			}
-		}
 		// check if player should move to new cell
 		if (x < 1) { // move moveC to main, then change map to it
 			x = row-10;

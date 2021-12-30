@@ -139,14 +139,15 @@ int main() {
 		box(winLog, '*', '*');
 		box(stats, '*', '*');
 		box(menu, '*', '*');
-		loadCell(isCharacter); // has to be first so player can see it
-		player.handleInput(k, isCharacter); // find how to make them all the same (be in for loop and check if player)
-		for (int i = 0; i < row*col; i++)
+		for (int i = 0; i < row*col; i++) // this was after loadCell(), zeroing it out
 			isCharacter[i] = false;
+		loadCell(isCharacter); // has to be first so player can see it
 		//isCharacter[player.x+player.y*col] = true; // 5 + 5 * col = 1D loc
 		for (int i=0; i<row*col; i++) {
 			isCharacter[enemies[i].y+enemies[i].x*col] = true; // YAY this caused error, x+y*col, made x go oob, removing made e stop traveling
 		} // but why did it change value, wait for ask, i bet it changed all to true which means 255, then -643...
+		player.handleInput(k, isCharacter); // find how to make them all the same (be in for loop and check if player)
+		// ^ should be here, makes sense, and gets most updated
 		for (int i = 0; i < row*col; i++) { // for (Enemy e : enemies) // does not work, causes overflow
 			if (enemies[i].x != -1) {
 				enemies[i].act(player, isCharacter, col);
