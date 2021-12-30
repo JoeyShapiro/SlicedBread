@@ -6,6 +6,7 @@
 	//public:
     Enemy::Enemy() {
 		skin = 'e';
+		health = 10;
 	}
 
 	void Enemy::act(Player& player, bool isCharacter[], int col) { // 2d in c++ is weird, must be Player& to pass object and not create a tmp o?
@@ -29,7 +30,7 @@
 			int xPrime = legalMoves[i][0];
 			int yPrime = legalMoves[i][1];
 			//int h = abs(xPrime - player.x) + abs(yPrime - player.y); // manhattan
-			double h = sqrt(((xPrime - player.x)*(xPrime - player.x)) + ((yPrime - player.y)*(yPrime - player.y))); // EFFICIENCY
+			double h = sqrt(((xPrime - player.x)*(xPrime - player.x)) + ((yPrime - player.y)*(yPrime - player.y))); // euclidean (EFFICIENCY)
 			
 			if (h <= bestH) {
 				bestH = h;
@@ -48,5 +49,9 @@
 			x = bestM[0];
 			y = bestM[1];
 		}
+	}
+
+	void Enemy::damage(int dam) {
+		health -= dam;
 	}
 //};
