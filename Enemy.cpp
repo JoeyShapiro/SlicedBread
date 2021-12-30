@@ -20,7 +20,7 @@
 				legalMoves[i][1] = tmpy;
 			}
 		}
-		int bestH = 1000; // INFINITY doesnt work ?
+		double bestH = 1000; // INFINITY doesnt work ?
 		int bestM[2] = {x, y};
 
 		for (int i=0; i<5; i++) {
@@ -28,7 +28,8 @@
 				continue;
 			int xPrime = legalMoves[i][0];
 			int yPrime = legalMoves[i][1];
-			int h = abs(xPrime - player.x) + abs(yPrime - player.y);
+			//int h = abs(xPrime - player.x) + abs(yPrime - player.y); // manhattan
+			double h = sqrt(((xPrime - player.x)*(xPrime - player.x)) + ((yPrime - player.y)*(yPrime - player.y))); // EFFICIENCY
 			
 			if (h <= bestH) {
 				bestH = h;
