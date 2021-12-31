@@ -15,6 +15,8 @@ class Enemy : public Being {
 	void act(Player& player, bool isCharacter[], int col);
 
 	void damage(int dam);
+
+	void checkPulse();
 };
 
 #endif

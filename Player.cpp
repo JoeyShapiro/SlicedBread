@@ -22,9 +22,9 @@
 			y--; // x, --y
 		} else if (key == 'd' && !isCharacter[(arry+1)+arrx*39]) {
 			y++; // x, ++y
-		} else if (key == 'w' && isCharacter[arry+(arrx+1)*39]) {
+		} else if (key == 'w' && isCharacter[arry+(arrx-1)*39]) {
 			for (int i=0; i<24; i++) {
-				if (x == enemies[i].x && y == enemies[i].y) {
+				if (x == enemies[i].x+1 && y == enemies[i].y) { // smarter i think, to not cause oob
 					int dam = 1;
 					enemies[i].damage(1);
 					std::string log = "@: attacked e for " + std::to_string(dam); // cant use format string :(
