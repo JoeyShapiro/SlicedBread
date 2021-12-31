@@ -1,0 +1,15 @@
+this is a file of common debug "functions" used
+they are placed here to keep it clean
+then grabbed and modified when needed
+
+// this function prints the collision map in the log
+for (int i=0; i<14; i++) {
+    string test = "";
+    for(int j=0; j<39; j++) {
+        if (isCharacter[j+i*39])
+            test += '1';
+        else
+            test += ' ';
+    }
+    enLog(logs, test);
+}

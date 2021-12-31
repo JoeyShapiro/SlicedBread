@@ -10,6 +10,7 @@
 #include "Enemy.h"
 #include "common.h"
 #include "Cells.h"
+#include "uncommon.h"
 
 using namespace std;
 
@@ -104,18 +105,17 @@ int main() {
 	box(menu, '*', '*');
 
 	Character characters[row*col]; // could draw with matrix (x, y) but value is easy
-	Enemy enemies[row*col]; // TODO find how to make to one ^
 	bool isCharacter[row*col]; // make sure right order
 	genMap();
 	// TODO organize
-	for (int i = 0; i < row*col; i++) { // find better way
+	for (int i = 0; i < 24; i++) { // find better way
 		enemies[i].x = -1;
 		enemies[i].y = -1;
 	}
 
 	// prelim
 	enemies[0].setPos(3,3);
-	for (int i = 0; i < row*col; i++) {
+	for (int i = 0; i < 24; i++) {
 		if (enemies[i].x != -1)
 			enemies[i].moveC();
 	}
@@ -143,12 +143,23 @@ int main() {
 			isCharacter[i] = false;
 		loadCell(isCharacter); // has to be first so player can see it
 		//isCharacter[player.x+player.y*col] = true; // 5 + 5 * col = 1D loc
-		for (int i=0; i<row*col; i++) {
-			isCharacter[enemies[i].y+enemies[i].x*col] = true; // YAY this caused error, x+y*col, made x go oob, removing made e stop traveling
+		for (int i=0; i<24; i++) {
+			//if (enemies[i].x != -1) // should do something good
+				isCharacter[(enemies[i].y-1)+(enemies[i].x-1)*39] = true; // YAY this caused error, x+y*col, made x go oob, removing made e stop traveling
 		} // but why did it change value, wait for ask, i bet it changed all to true which means 255, then -643...
+		for (int i=1; i<4; i++) {
+			string test = "";
+			for(int j=0; j<39; j++) {
+				if (isCharacter[j+i*39])
+					test += '1';
+				else
+					test += ' ';
+			}
+			enLog(logs, test);
+		}
 		player.handleInput(k, isCharacter); // find how to make them all the same (be in for loop and check if player)
 		// ^ should be here, makes sense, and gets most updated
-		for (int i = 0; i < row*col; i++) { // for (Enemy e : enemies) // does not work, causes overflow
+		for (int i = 0; i < 24; i++) { // for (Enemy e : enemies) // does not work, causes overflow
 			if (enemies[i].x != -1) {
 				enemies[i].act(player, isCharacter, col);
 				enemies[i].moveC();

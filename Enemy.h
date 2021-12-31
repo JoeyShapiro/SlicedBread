@@ -7,6 +7,8 @@
 #include <ncurses.h>
 #include "common.h"
 
+class Player;
+
 class Enemy : public Being {
 	public: Enemy();
 

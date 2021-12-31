@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "Being.h"
+#include "uncommon.h"
 
 class Player : public Being {
 	public: Player();

@@ -23,14 +23,14 @@
 		} else if (key == 'd' && !isCharacter[(arry+1)+arrx*39]) {
 			y++; // x, ++y
 		} else if (key == 'w' && isCharacter[arry+(arrx+1)*39]) {
-			// for (int i=0; i<row*col; i++) {
-			// 	if (x == enemies[i].x && y == enemies[i].y) {
-			// 		int dam = 1;
-			// 		enemies[i].damage(1);
-			// 		std::string log = "@: attacked e for " + std::to_string(dam); // cant use format string :(
-			// 		enLog(logs, log);
-			// 	}
-			// }
+			for (int i=0; i<24; i++) {
+				if (x == enemies[i].x && y == enemies[i].y) {
+					int dam = 1;
+					enemies[i].damage(1);
+					std::string log = "@: attacked e for " + std::to_string(dam); // cant use format string :(
+					enLog(logs, log);
+				}
+			}
 		} else {
 			// x, y
 			 //cerr << key << endl;
