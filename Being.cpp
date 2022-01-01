@@ -7,4 +7,10 @@
 	void Being::moveC() {
 		mvwprintw(game, x, y, "%c", skin);
 	}
+
+	void Being::checkPulse() {
+		if (health <= 0) {
+			setPos(-1, -1);
+		}
+	}
 //};

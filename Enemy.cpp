@@ -54,10 +54,4 @@
 	void Enemy::damage(int dam) {
 		health -= dam;
 	}
-
-	void Enemy::checkPulse() {
-		if (health <= 0) {
-			setPos(-1, -1);
-		}
-	}
 //};

@@ -142,6 +142,10 @@ int main() {
 		box(menu, '*', '*');
 		for (int i = 0; i < row*col; i++) // this was after loadCell(), zeroing it out
 			isCharacter[i] = false;
+		if (player.x == -1) { // GAMEOVER
+			enLog(logs, "system: GAMEOVER");
+			continue; // how should i do this
+		}
 		loadCell(isCharacter); // has to be first so player can see it
 		//isCharacter[player.x+player.y*col] = true; // 5 + 5 * col = 1D loce x go oob, removing made e stop traveling
 		// but why did it change value, wait for ask, i bet it changed all to true which means 255, then -643...

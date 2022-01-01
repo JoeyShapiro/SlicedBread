@@ -10,6 +10,8 @@ class Being : public Character {
 		int health;
 
 	void moveC();
+
+	void checkPulse();
 };
 
 #endif
