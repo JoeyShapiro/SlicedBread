@@ -31,6 +31,33 @@
 					enLog(logs, log);
 				}
 			}
+		} else if (key == 's' && !isCharacter[arry+(arrx+1)*39]) {
+			for (int i=0; i<24; i++) { // func maybe with enemy pos
+				if (x == enemies[i].x-1 && y == enemies[i].y) { // smarter i think, to not cause oob
+					int dam = 1;
+					enemies[i].damage(1);
+					std::string log = "@: attacked e for " + std::to_string(dam); // cant use format string :(
+					enLog(logs, log);
+				}
+			}
+		} else if (key == 'a' && !isCharacter[(arry-1)+arrx*39]) {
+			for (int i=0; i<24; i++) {
+				if (x == enemies[i].x && y == enemies[i].y+1) { // smarter i think, to not cause oob
+					int dam = 1;
+					enemies[i].damage(1);
+					std::string log = "@: attacked e for " + std::to_string(dam); // cant use format string :(
+					enLog(logs, log);
+				}
+			}
+		} else if (key == 'd' && !isCharacter[(arry+1)+arrx*39]) {
+			for (int i=0; i<24; i++) {
+				if (x == enemies[i].x+1 && y == enemies[i].y-1) { // smarter i think, to not cause oob
+					int dam = 1;
+					enemies[i].damage(1);
+					std::string log = "@: attacked e for " + std::to_string(dam); // cant use format string :(
+					enLog(logs, log);
+				}
+			}
 		} else {
 			// x, y
 			 //cerr << key << endl;
