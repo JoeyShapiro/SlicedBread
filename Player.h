@@ -10,8 +10,6 @@ class Player : public Being {
 	int mapy;
 
 	void handleInput(char key, bool isCharacter[]);
-
-	void damage(int dam);
 };
 
 #endif

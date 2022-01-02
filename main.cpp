@@ -140,8 +140,11 @@ int main() {
 		box(winLog, '*', '*');
 		box(stats, '*', '*');
 		box(menu, '*', '*');
+		player.handleInput(k, isCharacter); // find how to make them all the same (be in for loop and check if player)
+		// ^ should ACTUALLy be here, makes sense, and gets most updated,, alines with what player "sees"
 		for (int i = 0; i < row*col; i++) // this was after loadCell(), zeroing it out
 			isCharacter[i] = false;
+		player.checkPulse();
 		if (player.x == -1) { // GAMEOVER
 			enLog(logs, "system: GAMEOVER");
 			continue; // how should i do this
@@ -157,8 +160,6 @@ int main() {
 				isCharacter[(enemies[i].y-1)+(enemies[i].x-1)*39] = true; // YAY this caused error, x+y*col, made x go oob, removing made e stop traveling
 			}
 		}
-		player.handleInput(k, isCharacter); // find how to make them all the same (be in for loop and check if player)
-		// ^ should be here, makes sense, and gets most updated
 		reDrawStats(); // should be here... i think
 		reDrawMenu();
 		printQueue(logs);

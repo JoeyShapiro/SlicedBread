@@ -7,6 +7,14 @@
     Enemy::Enemy() {
 		skin = 'e';
 		health = 10;
+		ap = 1;
+		phys = 15;
+		critC = 10;
+		critM = 1.5;
+		defC = 5;
+		def = 5;
+		acc = 75;
+		armor = 10;
 	}
 
 	void Enemy::act(Player& player, bool isCharacter[], int col) { // 2d in c++ is weird, must be Player& to pass object and not create a tmp o?
@@ -41,7 +49,7 @@
 
 		// abs(bestM[0] - player.x) + abs(bestM[1] - player.y) == 0 // still doesnt work, just "juggles" instead
 		if (bestM[0] == player.x && bestM[1] == player.y) {
-			int dam = 1;
+			int dam = calcDamage();
 			player.damage(dam);
 			std::string log = "e: attacked @ for " + std::to_string(dam); // cant use format string :(
 			enLog(logs, log);
@@ -49,9 +57,5 @@
 			x = bestM[0];
 			y = bestM[1];
 		}
-	}
-
-	void Enemy::damage(int dam) {
-		health -= dam;
 	}
 //};

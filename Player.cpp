@@ -6,6 +6,14 @@
     Player::Player() {
 		skin = '@';
 		health = 100;
+		ap = 2;
+		phys = 15;
+		critC = 25;
+		critM = 1.2;
+		defC = 5;
+		def = 10;
+		acc = 75;
+		armor = 15;
 	}
 	int mapx = 0; // here for now
 	int mapy = 0; // maybe each character, or map has character array, map array, because then would check each characeter in total array, rather than array in each map
@@ -25,8 +33,8 @@
 		} else if (key == 'w' && isCharacter[arry+(arrx-1)*39]) {
 			for (int i=0; i<24; i++) {
 				if (x == enemies[i].x+1 && y == enemies[i].y) { // smarter i think, to not cause oob
-					int dam = 1;
-					enemies[i].damage(1);
+					int dam = calcDamage();
+					enemies[i].damage(dam);
 					std::string log = "@: attacked e for " + std::to_string(dam); // cant use format string :(
 					enLog(logs, log);
 				}
@@ -34,8 +42,8 @@
 		} else if (key == 's' && !isCharacter[arry+(arrx+1)*39]) {
 			for (int i=0; i<24; i++) { // func maybe with enemy pos
 				if (x == enemies[i].x-1 && y == enemies[i].y) { // smarter i think, to not cause oob
-					int dam = 1;
-					enemies[i].damage(1);
+					int dam = calcDamage();
+					enemies[i].damage(dam);
 					std::string log = "@: attacked e for " + std::to_string(dam); // cant use format string :(
 					enLog(logs, log);
 				}
@@ -43,8 +51,8 @@
 		} else if (key == 'a' && !isCharacter[(arry-1)+arrx*39]) {
 			for (int i=0; i<24; i++) {
 				if (x == enemies[i].x && y == enemies[i].y+1) { // smarter i think, to not cause oob
-					int dam = 1;
-					enemies[i].damage(1);
+					int dam = calcDamage();
+					enemies[i].damage(dam);
 					std::string log = "@: attacked e for " + std::to_string(dam); // cant use format string :(
 					enLog(logs, log);
 				}
@@ -52,8 +60,8 @@
 		} else if (key == 'd' && !isCharacter[(arry+1)+arrx*39]) {
 			for (int i=0; i<24; i++) {
 				if (x == enemies[i].x+1 && y == enemies[i].y-1) { // smarter i think, to not cause oob
-					int dam = 1;
-					enemies[i].damage(1);
+					int dam = calcDamage();
+					enemies[i].damage(dam);
 					std::string log = "@: attacked e for " + std::to_string(dam); // cant use format string :(
 					enLog(logs, log);
 				}
@@ -82,9 +90,4 @@
 		}
 		moveC(); // maybe move
 	}
-
-	void Player::damage(int dam) {
-		health -= dam;
-	}
-
 //};
