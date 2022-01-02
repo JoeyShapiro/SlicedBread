@@ -5,19 +5,19 @@
 	//public: 
     Player::Player() {
 		skin = '@';
-		health = 100;
-		ap = 2;
-		phys = 15;
-		critC = 25;
-		critM = 1.2;
-		defC = 5;
-		def = 10;
-		acc = 75;
-		armor = 15;
+		dossier.health = 100;
+		dossier.ap = 2;
+		dossier.phys = 15;
+		dossier.critC = 25;
+		dossier.critM = 1.2;
+		dossier.defC = 5;
+		dossier.def = 10;
+		dossier.acc = 75;
+		dossier.armor = 15;
 	}
 	int mapx = 0; // here for now
 	int mapy = 0; // maybe each character, or map has character array, map array, because then would check each characeter in total array, rather than array in each map
-
+	Item items[10];
 
 	void Player::handleInput(char key, bool isCharacter[]) { // maybe make being (k, p) // has to be here ??
 		int arrx = x-1; // took a while to find, is char starts at 0, player starts at 1, maybe draw char, needs that place i think

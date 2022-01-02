@@ -11,6 +11,7 @@
 #include "common.h"
 #include "Cells.h"
 #include "uncommon.h"
+#include "Cell.h"
 
 using namespace std;
 
@@ -21,10 +22,11 @@ char kin() {
 }
 
 Player player;
+Cell cells[MAP_S][MAP_S]; // maybe only use instead of maps, but good for now
 
 void reDrawStats() { // maybe in Player
 	mvwprintw(stats, 0, 1, "Player Stats");
-	mvwprintw(stats, 1, 1, "Health: %d", player.health);
+	mvwprintw(stats, 1, 1, "Health: %d", player.dossier.health);
 }
 
 void genMap() {
@@ -39,6 +41,19 @@ void genMap() {
 		}
 	}
 	enLog(logs, "map generated");
+}
+
+void mapCells() {
+	for (int i=0; i<MAP_S; i++) {
+		for (int j=0; j<MAP_S; j++) {
+			if (!map[i][j]) // if cell is empty
+				continue;
+			// TODO how do i deal with oob
+			//if (map[i][j] && map[i+1][j]) // ,
+				//cells[i][j].ground = Cells.DOWN;
+		}
+	}
+	enLog(logs, "cells mapped");
 }
 
 void loadCell(bool isCharacter[]) {
@@ -107,6 +122,7 @@ int main() {
 	Character characters[row*col]; // could draw with matrix (x, y) but value is easy
 	bool isCharacter[row*col]; // make sure right order
 	genMap();
+	mapCells();
 	// TODO organize
 	for (int i = 0; i < 24; i++) { // find better way
 		enemies[i].x = -1;

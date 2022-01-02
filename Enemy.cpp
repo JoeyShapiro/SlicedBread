@@ -6,15 +6,15 @@
 	//public:
     Enemy::Enemy() {
 		skin = 'e';
-		health = 10;
-		ap = 1;
-		phys = 15;
-		critC = 10;
-		critM = 1.5;
-		defC = 5;
-		def = 5;
-		acc = 75;
-		armor = 10;
+		dossier.health = 10;
+		dossier.ap = 1;
+		dossier.phys = 15;
+		dossier.critC = 10;
+		dossier.critM = 1.5;
+		dossier.defC = 5;
+		dossier.def = 5;
+		dossier.acc = 75;
+		dossier.armor = 10;
 	}
 
 	void Enemy::act(Player& player, bool isCharacter[], int col) { // 2d in c++ is weird, must be Player& to pass object and not create a tmp o?
