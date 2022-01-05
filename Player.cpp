@@ -1,5 +1,6 @@
 #include "Player.h"
 #include <string>
+#include "uncommon.h" // this fixes "unknown type enemy, in Cell.h", it caused loop, put here it wont, only needs for work, not def
 
 //class Player : public Being {
 	//public: 
@@ -32,36 +33,36 @@
 			y++; // x, ++y
 		} else if (key == 'w' && isCharacter[arry+(arrx-1)*GAME_W]) {
 			for (int i=0; i<24; i++) {
-				if (x == enemies[i].x+1 && y == enemies[i].y) { // smarter i think, to not cause oob
+				if (x == cells[mapx][mapy].enemies[i].x+1 && y == cells[mapx][mapy].enemies[i].y) { // smarter i think, to not cause oob
 					int dam = calcDamage();
-					enemies[i].damage(dam);
+					cells[mapx][mapy].enemies[i].damage(dam);
 					std::string log = "@: attacked e for " + std::to_string(dam); // cant use format string :(
 					enLog(logs, log);
 				}
 			}
 		} else if (key == 's' && !isCharacter[arry+(arrx+1)*GAME_W]) {
 			for (int i=0; i<24; i++) { // func maybe with enemy pos
-				if (x == enemies[i].x-1 && y == enemies[i].y) { // smarter i think, to not cause oob
+				if (x == cells[mapx][mapy].enemies[i].x-1 && y == cells[mapx][mapy].enemies[i].y) { // smarter i think, to not cause oob
 					int dam = calcDamage();
-					enemies[i].damage(dam);
+					cells[mapx][mapy].enemies[i].damage(dam);
 					std::string log = "@: attacked e for " + std::to_string(dam); // cant use format string :(
 					enLog(logs, log);
 				}
 			}
 		} else if (key == 'a' && !isCharacter[(arry-1)+arrx*GAME_W]) {
 			for (int i=0; i<24; i++) {
-				if (x == enemies[i].x && y == enemies[i].y+1) { // smarter i think, to not cause oob
+				if (x == cells[mapx][mapy].enemies[i].x && y == cells[mapx][mapy].enemies[i].y+1) { // smarter i think, to not cause oob
 					int dam = calcDamage();
-					enemies[i].damage(dam);
+					cells[mapx][mapy].enemies[i].damage(dam);
 					std::string log = "@: attacked e for " + std::to_string(dam); // cant use format string :(
 					enLog(logs, log);
 				}
 			}
 		} else if (key == 'd' && !isCharacter[(arry+1)+arrx*GAME_W]) {
 			for (int i=0; i<24; i++) {
-				if (x == enemies[i].x+1 && y == enemies[i].y-1) { // smarter i think, to not cause oob
+				if (x == cells[mapx][mapy].enemies[i].x+1 && y == cells[mapx][mapy].enemies[i].y-1) { // smarter i think, to not cause oob
 					int dam = calcDamage();
-					enemies[i].damage(dam);
+					cells[mapx][mapy].enemies[i].damage(dam);
 					std::string log = "@: attacked e for " + std::to_string(dam); // cant use format string :(
 					enLog(logs, log);
 				}

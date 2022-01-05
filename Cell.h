@@ -4,12 +4,11 @@
 #include "Interactable.h"
 #include "Enemy.h"
 
-
 class Cell {
     public:
-        char ground[GAME_H][38]; // separate types, they will need own place for stuff anyway
+        char ground[GAME_H][GAME_W]; // separate types, they will need own place for stuff anyway
         Interactable i[24];
-        Enemy enemies[24];
+        Enemy enemies[24]; // to fix "note: forward dec" and "unknown type" use "*", recursive dec is wierd
         
 };
 

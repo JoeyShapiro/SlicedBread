@@ -4,6 +4,7 @@
 #include "common.h"
 
 extern const char TEST[GAME_H][GAME_W];
+extern const char LEFT[GAME_H][GAME_W];
 extern const char RIGHT[GAME_H][GAME_W];
 extern const char UP[GAME_H][GAME_W];
 extern const char DOWN[GAME_H][GAME_W];

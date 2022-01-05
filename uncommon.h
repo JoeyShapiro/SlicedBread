@@ -2,9 +2,11 @@
 #define UNCOMMON_H
 
 #include "Enemy.h"
+#include "Cell.h"
 
-class Enemy; // i dont know who needs this
-
-extern Enemy enemies[24];
+class Enemy;
+class Cell; // i dont know who needs this
+extern Cell cells[MAP_S][MAP_S];
+// maybe no dupes because other classes CAN use either
 
 #endif

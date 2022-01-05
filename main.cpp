@@ -22,7 +22,6 @@ char kin() {
 }
 
 Player player;
-Cell cells[MAP_S][MAP_S]; // maybe only use instead of maps, but good for now
 
 void reDrawStats() { // maybe in Player
 	mvwprintw(stats, 0, 1, "Player Stats");
@@ -49,8 +48,38 @@ void mapCells() {
 			if (!map[i][j]) // if cell is empty
 				continue;
 			// TODO how do i deal with oob
-			//if (map[i][j] && map[i+1][j]) // ,
-				//cells[i][j].ground = Cells.DOWN;
+			if (map[i][j] && map[i+1][j]) // , // maybe make Cells class for "Cells."
+				memcpy(cells[i][j].ground, DOWN, sizeof(cells[i][j].ground)); // use size of ground, this will mean it CANT overcopy, i think
+			else if (map[i][j] && map[i][j-1]) // -(left) // TODO maybe be fancy and do later
+				memcpy(cells[i][j].ground, LEFT, sizeof(cells[i][j].ground));
+			else if (map[i][j] && map[i][j+1]) // -(right)
+				memcpy(cells[i][j].ground, RIGHT, sizeof(cells[i][j].ground));
+			else if (map[i][j] && map[i-1][j]) // '
+				memcpy(cells[i][j].ground, UP, sizeof(cells[i][j].ground));
+			else if (map[i][j] && map[i][j-1] && map[i][j+1]) // _
+				memcpy(cells[i][j].ground, HORIZONTAL, sizeof(cells[i][j].ground));
+			else if (map[i][j] && map[i+1][j] && map[i-1][j]) // |
+				memcpy(cells[i][j].ground, VERTICAL, sizeof(cells[i][j].ground));
+			else if (map[i][j] && map[i-1][j] && map[i][j+1]) // L
+				memcpy(cells[i][j].ground, UPRIGHT, sizeof(cells[i][j].ground));
+			else if (map[i][j] && map[i+1][j] && map[i][j+1]) // L(upside down)
+				memcpy(cells[i][j].ground, DOWNRIGHT, sizeof(cells[i][j].ground));
+			else if (map[i][j] && map[i-1][j] && map[i][j-1]) // -'
+				memcpy(cells[i][j].ground, LEFTUP, sizeof(cells[i][j].ground));
+			else if (map[i][j] && map[i+1][j] && map[i][j-1]) // -,
+				memcpy(cells[i][j].ground, LEFTDOWN, sizeof(cells[i][j].ground));
+			else if (map[i][j] && map[i+1][j] && map[i][j-1] && map[i][j+1]) // T
+				memcpy(cells[i][j].ground, HORIZONTALDOWN, sizeof(cells[i][j].ground));
+			else if (map[i][j] && map[i-1][j] && map[i][j+1] && map[i+1][j]) // |-
+				memcpy(cells[i][j].ground, VERTICALRIGHT, sizeof(cells[i][j].ground));
+			else if (map[i][j] && map[i-1][j] && map[i][j-1] && map[i+1][j]) // -|
+				memcpy(cells[i][j].ground, VERTICALLEFT, sizeof(cells[i][j].ground));
+			else if (map[i][j] && map[i-1][j] && map[i][j-1] && map[i][j+1]) // -'-
+				memcpy(cells[i][j].ground, HORIZONTALUP, sizeof(cells[i][j].ground));
+			else if (map[i][j] && map[i-1][j] && map[i][j-1] && map[i][j+1] && map[i+1][j]) // +
+				memcpy(cells[i][j].ground, UDLR, sizeof(cells[i][j].ground));
+			else
+				memcpy(cells[i][j].ground, TEST, sizeof(cells[i][j].ground)); // failsafe, kinda ut not really
 		}
 	}
 	enLog(logs, "cells mapped");
@@ -60,9 +89,9 @@ void loadCell(bool isCharacter[]) {
 	//bool curCell = map[player.mapx][player.mapy];
 	for (int i=0; i<GAME_H; i++) {
 		for (int j=0; j<GAME_W; j++) {
-			if (LEFT[i][j] == ' ')
+			if (cells[player.mapx][player.mapy].ground[i][j] == ' ')
 				continue;
-			mvwprintw(game, i+1, j+1, "%c", LEFT[i][j]);
+			mvwprintw(game, i+1, j+1, "%c", cells[player.mapx][player.mapy].ground[i][j]);
 			isCharacter[j+i*GAME_W] = true; // i did col, but its not that large
 		}
 	}
@@ -125,15 +154,15 @@ int main() {
 	mapCells();
 	// TODO organize
 	for (int i = 0; i < 24; i++) { // find better way
-		enemies[i].x = -1;
-		enemies[i].y = -1;
+		cells[player.mapx][player.mapy].enemies[i].x = -1; // what the ___ is this
+		cells[player.mapx][player.mapy].enemies[i].y = -1;
 	}
 
 	// prelim
-	enemies[0].setPos(3,3);
+	cells[player.mapx][player.mapy].enemies[0].setPos(3,3); // you can do this!?
 	for (int i = 0; i < 24; i++) {
-		if (enemies[i].x != -1)
-			enemies[i].moveC();
+		if (cells[player.mapx][player.mapy].enemies[i].x != -1)
+			cells[player.mapx][player.mapy].enemies[i].moveC();
 	}
 
 	player.setPos(5, 5);
@@ -168,12 +197,12 @@ int main() {
 		loadCell(isCharacter); // has to be first so player can see it
 		//isCharacter[player.x+player.y*col] = true; // 5 + 5 * col = 1D loce x go oob, removing made e stop traveling
 		// but why did it change value, wait for ask, i bet it changed all to true which means 255, then -643...
-		for (int i = 0; i < 24; i++) { // for (Enemy e : enemies) // does not work, causes overflow
-			enemies[i].checkPulse();
-			if (enemies[i].x != -1) {
-				enemies[i].act(player, isCharacter, col);
-				enemies[i].moveC(); // this would move/update but isChar would be delayed, now update then update isChar
-				isCharacter[(enemies[i].y-1)+(enemies[i].x-1)*GAME_W] = true; // YAY this caused error, x+y*col, made x go oob, removing made e stop traveling
+		for (int i = 0; i < 24; i++) { // for (Enemy e : cells[player.mapx][player.mapy].enemies) // does not work, causes overflow
+			cells[player.mapx][player.mapy].enemies[i].checkPulse();
+			if (cells[player.mapx][player.mapy].enemies[i].x != -1) {
+				cells[player.mapx][player.mapy].enemies[i].act(player, isCharacter, col);
+				cells[player.mapx][player.mapy].enemies[i].moveC(); // this would move/update but isChar would be delayed, now update then update isChar
+				isCharacter[(cells[player.mapx][player.mapy].enemies[i].y-1)+(cells[player.mapx][player.mapy].enemies[i].x-1)*GAME_W] = true; // YAY this caused error, x+y*col, made x go oob, removing made e stop traveling
 			}
 		}
 		reDrawStats(); // should be here... i think
