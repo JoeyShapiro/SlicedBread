@@ -58,12 +58,12 @@ void mapCells() {
 
 void loadCell(bool isCharacter[]) {
 	//bool curCell = map[player.mapx][player.mapy];
-	for (int i=0; i<14; i++) {
-		for (int j=0; j<39; j++) {
+	for (int i=0; i<GAME_H; i++) {
+		for (int j=0; j<GAME_W; j++) {
 			if (LEFT[i][j] == ' ')
 				continue;
 			mvwprintw(game, i+1, j+1, "%c", LEFT[i][j]);
-			isCharacter[j+i*39] = true; // i did col, but its not that large
+			isCharacter[j+i*GAME_W] = true; // i did col, but its not that large
 		}
 	}
 }
@@ -173,7 +173,7 @@ int main() {
 			if (enemies[i].x != -1) {
 				enemies[i].act(player, isCharacter, col);
 				enemies[i].moveC(); // this would move/update but isChar would be delayed, now update then update isChar
-				isCharacter[(enemies[i].y-1)+(enemies[i].x-1)*39] = true; // YAY this caused error, x+y*col, made x go oob, removing made e stop traveling
+				isCharacter[(enemies[i].y-1)+(enemies[i].x-1)*GAME_W] = true; // YAY this caused error, x+y*col, made x go oob, removing made e stop traveling
 			}
 		}
 		reDrawStats(); // should be here... i think

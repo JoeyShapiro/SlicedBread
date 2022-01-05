@@ -6,6 +6,8 @@
 #include <queue>
 
 #define MAP_S 5
+#define GAME_W 38
+#define GAME_H 14
 
 extern WINDOW *game;
 extern WINDOW *winLog;

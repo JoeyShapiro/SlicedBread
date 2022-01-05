@@ -22,15 +22,15 @@
 	void Player::handleInput(char key, bool isCharacter[]) { // maybe make being (k, p) // has to be here ??
 		int arrx = x-1; // took a while to find, is char starts at 0, player starts at 1, maybe draw char, needs that place i think
 		int arry = y-1; // used to convert x and y to isChar array
-		if (key == 'w' && !isCharacter[arry+(arrx-1)*39]) {
+		if (key == 'w' && !isCharacter[arry+(arrx-1)*GAME_W]) {
 			x--; // --x, y
-		} else if (key == 's' && !isCharacter[arry+(arrx+1)*39]) {
+		} else if (key == 's' && !isCharacter[arry+(arrx+1)*GAME_W]) {
 			x++; // ++x, y
-		} else if (key == 'a' && !isCharacter[(arry-1)+arrx*39]) {
+		} else if (key == 'a' && !isCharacter[(arry-1)+arrx*GAME_W]) {
 			y--; // x, --y
-		} else if (key == 'd' && !isCharacter[(arry+1)+arrx*39]) {
+		} else if (key == 'd' && !isCharacter[(arry+1)+arrx*GAME_W]) {
 			y++; // x, ++y
-		} else if (key == 'w' && isCharacter[arry+(arrx-1)*39]) {
+		} else if (key == 'w' && isCharacter[arry+(arrx-1)*GAME_W]) {
 			for (int i=0; i<24; i++) {
 				if (x == enemies[i].x+1 && y == enemies[i].y) { // smarter i think, to not cause oob
 					int dam = calcDamage();
@@ -39,7 +39,7 @@
 					enLog(logs, log);
 				}
 			}
-		} else if (key == 's' && !isCharacter[arry+(arrx+1)*39]) {
+		} else if (key == 's' && !isCharacter[arry+(arrx+1)*GAME_W]) {
 			for (int i=0; i<24; i++) { // func maybe with enemy pos
 				if (x == enemies[i].x-1 && y == enemies[i].y) { // smarter i think, to not cause oob
 					int dam = calcDamage();
@@ -48,7 +48,7 @@
 					enLog(logs, log);
 				}
 			}
-		} else if (key == 'a' && !isCharacter[(arry-1)+arrx*39]) {
+		} else if (key == 'a' && !isCharacter[(arry-1)+arrx*GAME_W]) {
 			for (int i=0; i<24; i++) {
 				if (x == enemies[i].x && y == enemies[i].y+1) { // smarter i think, to not cause oob
 					int dam = calcDamage();
@@ -57,7 +57,7 @@
 					enLog(logs, log);
 				}
 			}
-		} else if (key == 'd' && !isCharacter[(arry+1)+arrx*39]) {
+		} else if (key == 'd' && !isCharacter[(arry+1)+arrx*GAME_W]) {
 			for (int i=0; i<24; i++) {
 				if (x == enemies[i].x+1 && y == enemies[i].y-1) { // smarter i think, to not cause oob
 					int dam = calcDamage();

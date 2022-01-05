@@ -6,8 +6,8 @@ from numpy import asarray
   
 # load the image and convert into 
 # numpy array
-img = Image.open('cells/left.jpg')
-numpydata = asarray(img)
+img = Image.open('cells/uplr.png') # only png works, jpg causes '?', guessing png to jpg convert, oh well \_-_-_/
+numpydata = asarray(img) # do each by hand, or add all then separate, maybe later, '*' for all, but is that by hand or built, to get all and diplay
 matrix = []
 cell = ['{']
   
@@ -17,9 +17,9 @@ for e in numpydata:
     row = []
     for c in e:
         color = list(c)
-        if color == [0, 0, 0]:
-            row.append('O')
-        elif color == [255, 255, 255]:
+        if color == [0, 0, 0, 255]: # RGBa
+            row.append('#')
+        elif color == [255, 255, 255, 255]:
             row.append(' ')
         else:
             row.append('?')
