@@ -40,7 +40,7 @@
 					enLog(logs, log);
 				}
 			}
-		} else if (key == 's' && !isCharacter[arry+(arrx+1)*GAME_W]) {
+		} else if (key == 's' && isCharacter[arry+(arrx+1)*GAME_W]) {
 			for (int i=0; i<24; i++) { // func maybe with enemy pos
 				if (x == cells[mapx][mapy].enemies[i].x-1 && y == cells[mapx][mapy].enemies[i].y) { // smarter i think, to not cause oob
 					int dam = calcDamage();
@@ -49,7 +49,7 @@
 					enLog(logs, log);
 				}
 			}
-		} else if (key == 'a' && !isCharacter[(arry-1)+arrx*GAME_W]) {
+		} else if (key == 'a' && isCharacter[(arry-1)+arrx*GAME_W]) {
 			for (int i=0; i<24; i++) {
 				if (x == cells[mapx][mapy].enemies[i].x && y == cells[mapx][mapy].enemies[i].y+1) { // smarter i think, to not cause oob
 					int dam = calcDamage();
@@ -58,7 +58,7 @@
 					enLog(logs, log);
 				}
 			}
-		} else if (key == 'd' && !isCharacter[(arry+1)+arrx*GAME_W]) {
+		} else if (key == 'd' && isCharacter[(arry+1)+arrx*GAME_W]) {
 			for (int i=0; i<24; i++) {
 				if (x == cells[mapx][mapy].enemies[i].x+1 && y == cells[mapx][mapy].enemies[i].y-1) { // smarter i think, to not cause oob
 					int dam = calcDamage();
@@ -73,18 +73,18 @@
 		}
 		// check if player should move to new cell
 		if (x < 1) { // move moveC to main, then change map to it
-			x = row-10;
+			x = GAME_H;
 			mapx--;
 			enLog(logs, "new cell up");
-		} else if (x > row-10) {
+		} else if (x > GAME_H) {
 			x = 1;
 			mapx++;
 			enLog(logs, "new cell down");
 		} else if (y < 1) {
-			y = col/2-2;
+			y = GAME_W;
 			mapy--;
 			enLog(logs, "new cell left");
-		} else if (y > col/2-2) {
+		} else if (y > GAME_W-1) { // GAME_W should work, but doesnt
 			y = 1;
 			mapy++;
 			enLog(logs, "new cell right");

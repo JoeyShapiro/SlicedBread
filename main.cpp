@@ -45,39 +45,51 @@ void genMap() {
 void mapCells() {
 	for (int i=0; i<MAP_S; i++) {
 		for (int j=0; j<MAP_S; j++) {
+			bool up = false; // dont need i think, but keeps it clean
+			bool down = false;
+			bool left = false;
+			bool right = false;
+			if (i > 0)
+				up = map[i-1][j];
+			if (i < MAP_S+1)
+				down = map[i+1][j];
+			if (j > 0)
+				left = map[i][j-1];
+			if (j < MAP_S+1)
+				right = map[i][j+1];
 			if (!map[i][j]) // if cell is empty
 				continue;
 			// TODO how do i deal with oob
-			if (map[i][j] && map[i+1][j]) // , // maybe make Cells class for "Cells."
-				memcpy(cells[i][j].ground, DOWN, sizeof(cells[i][j].ground)); // use size of ground, this will mean it CANT overcopy, i think
-			else if (map[i][j] && map[i][j-1]) // -(left) // TODO maybe be fancy and do later
-				memcpy(cells[i][j].ground, LEFT, sizeof(cells[i][j].ground));
-			else if (map[i][j] && map[i][j+1]) // -(right)
-				memcpy(cells[i][j].ground, RIGHT, sizeof(cells[i][j].ground));
-			else if (map[i][j] && map[i-1][j]) // '
-				memcpy(cells[i][j].ground, UP, sizeof(cells[i][j].ground));
-			else if (map[i][j] && map[i][j-1] && map[i][j+1]) // _
-				memcpy(cells[i][j].ground, HORIZONTAL, sizeof(cells[i][j].ground));
-			else if (map[i][j] && map[i+1][j] && map[i-1][j]) // |
-				memcpy(cells[i][j].ground, VERTICAL, sizeof(cells[i][j].ground));
-			else if (map[i][j] && map[i-1][j] && map[i][j+1]) // L
-				memcpy(cells[i][j].ground, UPRIGHT, sizeof(cells[i][j].ground));
-			else if (map[i][j] && map[i+1][j] && map[i][j+1]) // L(upside down)
-				memcpy(cells[i][j].ground, DOWNRIGHT, sizeof(cells[i][j].ground));
-			else if (map[i][j] && map[i-1][j] && map[i][j-1]) // -'
-				memcpy(cells[i][j].ground, LEFTUP, sizeof(cells[i][j].ground));
-			else if (map[i][j] && map[i+1][j] && map[i][j-1]) // -,
-				memcpy(cells[i][j].ground, LEFTDOWN, sizeof(cells[i][j].ground));
-			else if (map[i][j] && map[i+1][j] && map[i][j-1] && map[i][j+1]) // T
-				memcpy(cells[i][j].ground, HORIZONTALDOWN, sizeof(cells[i][j].ground));
-			else if (map[i][j] && map[i-1][j] && map[i][j+1] && map[i+1][j]) // |-
-				memcpy(cells[i][j].ground, VERTICALRIGHT, sizeof(cells[i][j].ground));
-			else if (map[i][j] && map[i-1][j] && map[i][j-1] && map[i+1][j]) // -|
-				memcpy(cells[i][j].ground, VERTICALLEFT, sizeof(cells[i][j].ground));
-			else if (map[i][j] && map[i-1][j] && map[i][j-1] && map[i][j+1]) // -'-
-				memcpy(cells[i][j].ground, HORIZONTALUP, sizeof(cells[i][j].ground));
-			else if (map[i][j] && map[i-1][j] && map[i][j-1] && map[i][j+1] && map[i+1][j]) // +
+			if (map[i][j] && up && left && right && down) // + //  must be reverse order (least likely first (slime trap))
 				memcpy(cells[i][j].ground, UDLR, sizeof(cells[i][j].ground));
+			else if (map[i][j] && up && left && right) // -'-
+				memcpy(cells[i][j].ground, HORIZONTALUP, sizeof(cells[i][j].ground));
+			else if (map[i][j] && up && left && down) // -|
+				memcpy(cells[i][j].ground, VERTICALLEFT, sizeof(cells[i][j].ground));
+			else if (map[i][j] && up && right && down) // |-
+				memcpy(cells[i][j].ground, VERTICALRIGHT, sizeof(cells[i][j].ground));
+			else if (map[i][j] && down && left && right) // T
+				memcpy(cells[i][j].ground, HORIZONTALDOWN, sizeof(cells[i][j].ground));
+			else if (map[i][j] && down && left) // -,
+				memcpy(cells[i][j].ground, LEFTDOWN, sizeof(cells[i][j].ground));
+			else if (map[i][j] && up && left) // -'
+				memcpy(cells[i][j].ground, LEFTUP, sizeof(cells[i][j].ground));
+			else if (map[i][j] && down && right) // L(upside down)
+				memcpy(cells[i][j].ground, DOWNRIGHT, sizeof(cells[i][j].ground));
+			else if (map[i][j] && up && right) // L
+				memcpy(cells[i][j].ground, UPRIGHT, sizeof(cells[i][j].ground));
+			else if (map[i][j] && down && up) // |
+				memcpy(cells[i][j].ground, VERTICAL, sizeof(cells[i][j].ground));
+			else if (map[i][j] && left && right) // _
+				memcpy(cells[i][j].ground, HORIZONTAL, sizeof(cells[i][j].ground));
+			else if (map[i][j] && down) // , // maybe make Cells class for "Cells."
+				memcpy(cells[i][j].ground, DOWN, sizeof(cells[i][j].ground)); // use size of ground, this will mean it CANT overcopy, i think
+			else if (map[i][j] && left) // -(left) // TODO maybe be fancy and do later
+				memcpy(cells[i][j].ground, LEFT, sizeof(cells[i][j].ground));
+			else if (map[i][j] && right) // -(right)
+				memcpy(cells[i][j].ground, RIGHT, sizeof(cells[i][j].ground));
+			else if (map[i][j] && up) // '
+				memcpy(cells[i][j].ground, UP, sizeof(cells[i][j].ground));
 			else
 				memcpy(cells[i][j].ground, TEST, sizeof(cells[i][j].ground)); // failsafe, kinda ut not really
 		}
