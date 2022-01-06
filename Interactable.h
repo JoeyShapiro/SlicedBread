@@ -12,6 +12,10 @@ class Interactable : public Character {
         Item item;
 
     void moveC();
+
+    Item interact();
+
+    void remove();
 };
 
 #endif

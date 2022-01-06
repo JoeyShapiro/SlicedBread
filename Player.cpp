@@ -41,6 +41,10 @@
 					std::string log = "@: attacked e for " + std::to_string(dam); // cant use format string :(
 					enLog(logs, log);
 				}
+				if (x == cells[mapx][mapy].inters[i].x+1 && y == cells[mapx][mapy].inters[i].y) { // smarter i think, to not cause oob
+					Item item = cells[mapx][mapy].inters[i].interact();
+					addItem(item);
+				}
 			}
 		} else if (key == 's' && isCharacter[arry+(arrx+1)*GAME_W]) {
 			for (int i=0; i<24; i++) { // func maybe with enemy pos
@@ -49,6 +53,10 @@
 					cells[mapx][mapy].enemies[i].damage(dam);
 					std::string log = "@: attacked e for " + std::to_string(dam); // cant use format string :(
 					enLog(logs, log);
+				}
+				if (x == cells[mapx][mapy].inters[i].x-1 && y == cells[mapx][mapy].inters[i].y) {
+					Item item = cells[mapx][mapy].inters[i].interact();
+					addItem(item);
 				}
 			}
 		} else if (key == 'a' && isCharacter[(arry-1)+arrx*GAME_W]) {
@@ -59,14 +67,22 @@
 					std::string log = "@: attacked e for " + std::to_string(dam); // cant use format string :(
 					enLog(logs, log);
 				}
+				if (x == cells[mapx][mapy].inters[i].x && y == cells[mapx][mapy].inters[i].y+1) {
+					Item item = cells[mapx][mapy].inters[i].interact();
+					addItem(item);
+				}
 			}
 		} else if (key == 'd' && isCharacter[(arry+1)+arrx*GAME_W]) {
 			for (int i=0; i<24; i++) {
-				if (x == cells[mapx][mapy].enemies[i].x+1 && y == cells[mapx][mapy].enemies[i].y-1) { // smarter i think, to not cause oob
+				if (x == cells[mapx][mapy].enemies[i].x && y == cells[mapx][mapy].enemies[i].y-1) { // smarter i think, to not cause oob
 					int dam = calcDamage();
 					cells[mapx][mapy].enemies[i].damage(dam);
 					std::string log = "@: attacked e for " + std::to_string(dam); // cant use format string :(
 					enLog(logs, log);
+				}
+				if (x == cells[mapx][mapy].inters[i].x && y == cells[mapx][mapy].inters[i].y-1) {
+					Item item = cells[mapx][mapy].inters[i].interact();
+					addItem(item);
 				}
 			}
 		} else {

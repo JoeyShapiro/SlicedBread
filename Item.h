@@ -7,8 +7,9 @@
 
 class Item {
     public:
+    Item();
 		std::string name;
-        Dossier itemDossier;
+    Dossier itemDossier;
 };
 
 #endif

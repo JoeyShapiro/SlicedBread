@@ -24,7 +24,7 @@ void Cell::spawns() {
     for (int i=0; i<24; i++) {
         srand(time(NULL));
         // find place to set enemy
-        if (rand() % i == 0) {
+        if (rand() % (i*i) == 0) {
             do {
                 rx = rand() % GAME_H; // GAME_H-2 fixes wrong bus error
                 ry = rand() % GAME_W;
