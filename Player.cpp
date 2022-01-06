@@ -125,6 +125,8 @@
 	bool Player::addItem(Item item) { // is it proper to return true or false
 		if (itemCnt < 10) {
 			items[itemCnt++] = item;// add to counter after
+			std::string log = "picked up \"" + item.name + "\"";
+			enLog(logs, log);
 			calcStats();
 			return true;
 		} else {

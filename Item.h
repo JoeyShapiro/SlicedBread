@@ -10,6 +10,7 @@ class Item {
     Item();
 		std::string name;
     Dossier itemDossier;
+    std::string names[10];
 };
 
 #endif
