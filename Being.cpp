@@ -32,7 +32,7 @@
 
 		if (((rand() % 100) + 1) <= dossier.defC)
 			taken -= dossier.def; // maybe devide
-		taken -= dossier.armor;
+		taken -= taken/dossier.armor;
 		if (taken <= 0)
 			taken = 0;
 		

@@ -26,20 +26,20 @@ void Cell::spawns() {
         // find place to set enemy
         if (rand() % i == 0) {
             do {
-                rx = rand() % GAME_H-2; // TODO otehrwise thix causes bus error
+                rx = rand() % GAME_H; // GAME_H-2 fixes wrong bus error
                 ry = rand() % GAME_W;
-            } while (isCharacters[rx+ry*GAME_W]);
-            enemies[i].setPos(rx, ry);
-            isCharacters[rx+ry*GAME_W] = true;
+            } while (isCharacters[ry+rx*GAME_W]); // (or reversed)rx+ry*w = "bus error", x,y might be reversed, oh well "as long as its consistant"
+            enemies[i].setPos(rx, ry); // ^ im confused on the order or what happened, but it works
+            isCharacters[ry+rx*GAME_W] = true;
         }
         // find place to set item
         if (rand() % i == 0) {
             do {
-                rx = rand() % GAME_H-3; // otherwise this cuases bus error
+                rx = rand() % GAME_H; // GAME_H-3 fixes wrong bus error
                 ry = rand() % GAME_W;
-            } while (isCharacters[rx+ry*GAME_W]);
+            } while (isCharacters[ry+rx*GAME_W]);
             inters[i].setPos(rx, ry);
-            isCharacters[rx+ry*GAME_W] = true;
+            isCharacters[ry+rx*GAME_W] = true;
         }
     }
 }

@@ -9,7 +9,7 @@ class Player : public Being {
 	int mapx;
 	int mapy;
 	Item items[10];
-	Dossier dossierMod;
+	Dossier dossierBase;
 	int itemCnt;
 
 	void handleInput(char key, bool isCharacter[]);
@@ -18,7 +18,7 @@ class Player : public Being {
 
 	void addItem(Item item);
 
-	void removeItem(int i);
+	void removeItem(int loc);
 };
 
 #endif

@@ -8,6 +8,7 @@
 
 class Interactable : public Character {
     public:
+        Interactable();
         Item item;
 
     void moveC();

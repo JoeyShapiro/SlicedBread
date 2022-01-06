@@ -25,15 +25,15 @@ Player player;
 
 void reDrawStats() { // maybe in Player
 	mvwprintw(stats, 0, 1, "Player Stats");
-	mvwprintw(stats, 1, 1, "Health: %d", player.dossierMod.health);
-	mvwprintw(stats, 2, 1, "AP:     %d", player.dossierMod.ap);
-	mvwprintw(stats, 3, 1, "Phys:   %d", player.dossierMod.phys);
-	mvwprintw(stats, 4, 1, "Acc:    %d", player.dossierMod.acc);
-	mvwprintw(stats, 5, 1, "Armor:  %d", player.dossierMod.armor);
-	mvwprintw(stats, 6, 1, "Crit C: %d", player.dossierMod.critC);
-	mvwprintw(stats, 7, 1, "Crit M: %.2f", player.dossierMod.critM);
-	mvwprintw(stats, 8, 1, "Def:    %d", player.dossierMod.def);
-	mvwprintw(stats, 9, 1, "Def C:  %d", player.dossierMod.defC);
+	mvwprintw(stats, 1, 1, "Health: %d", player.dossier.health);
+	mvwprintw(stats, 2, 1, "AP:     %d", player.dossier.ap);
+	mvwprintw(stats, 3, 1, "Phys:   %d", player.dossier.phys);
+	mvwprintw(stats, 4, 1, "Acc:    %d", player.dossier.acc);
+	mvwprintw(stats, 5, 1, "Armor:  %d", player.dossier.armor);
+	mvwprintw(stats, 6, 1, "Crit C: %d", player.dossier.critC);
+	mvwprintw(stats, 7, 1, "Crit M: %.2f", player.dossier.critM);
+	mvwprintw(stats, 8, 1, "Def:    %d", player.dossier.def);
+	mvwprintw(stats, 9, 1, "Def C:  %d", player.dossier.defC);
 }
 
 void genMap() {
@@ -100,6 +100,7 @@ void mapCells() {
 				memcpy(cells[i][j].ground, UP, sizeof(cells[i][j].ground));
 			else
 				memcpy(cells[i][j].ground, TEST, sizeof(cells[i][j].ground)); // failsafe, kinda ut not really
+			cells[i][j].addCol(); // things spawned in walls, nvr gave coll, got lucky most didnt
 		}
 	}
 	enLog(logs, "cells mapped");
@@ -195,6 +196,8 @@ int main() {
 			for (int k = 0; k < 24; k++) { // find better way
 				cells[i][j].enemies[k].x = -1;
 				cells[i][j].enemies[k].y = -1;
+				cells[i][j].inters[k].x = -1; // smert
+				cells[i][j].inters[k].y = -1;
 			}
 		}
 	}
@@ -245,6 +248,10 @@ int main() {
 				cells[player.mapx][player.mapy].enemies[i].act(player, isCharacter, col);
 				cells[player.mapx][player.mapy].enemies[i].moveC(); // this would move/update but isChar would be delayed, now update then update isChar
 				isCharacter[(cells[player.mapx][player.mapy].enemies[i].y-1)+(cells[player.mapx][player.mapy].enemies[i].x-1)*GAME_W] = true; // YAY this caused error, x+y*col, made x go oob, removing made e stop traveling
+			}
+			if (cells[player.mapx][player.mapy].inters[i].x != -1) { // smert :P
+				cells[player.mapx][player.mapy].inters[i].moveC();
+				isCharacter[(cells[player.mapx][player.mapy].inters[i].y-1)+(cells[player.mapx][player.mapy].inters[i].x-1)*GAME_W] = true;
 			}
 		}
 		reDrawStats(); // should be here... i think

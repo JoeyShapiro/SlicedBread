@@ -6,21 +6,21 @@
 	//public: 
     Player::Player() {
 		skin = '@';
-		dossier.health = 100;
-		dossier.ap = 2;
-		dossier.phys = 15;
-		dossier.critC = 25;
-		dossier.critM = 1.2;
-		dossier.defC = 5;
-		dossier.def = 10;
-		dossier.acc = 75;
-		dossier.armor = 15;
+		dossierBase.health = 100;
+		dossierBase.ap = 2;
+		dossierBase.phys = 15;
+		dossierBase.critC = 25;
+		dossierBase.critM = 1.2;
+		dossierBase.defC = 5;
+		dossierBase.def = 10;
+		dossierBase.acc = 75;
+		dossierBase.armor = 10;
 	}
 	int mapx = 0; // here for now
 	int mapy = 0; // maybe each character, or map has character array, map array, because then would check each characeter in total array, rather than array in each map
 	int itemCnt = 0;
 	Item items[10];
-	Dossier dossierMod;
+	Dossier dossierBase; // doing it this way is better, now Being. stuff should work
 
 	void Player::handleInput(char key, bool isCharacter[]) { // maybe make being (k, p) // has to be here ??
 		int arrx = x-1; // took a while to find, is char starts at 0, player starts at 1, maybe draw char, needs that place i think
@@ -95,10 +95,10 @@
 	}
 
 	void Player::calcStats() {
-		dossierMod.zero(); // zero out
-		dossierMod += dossier;
+		dossier.zero(); // zero out
+		dossier += dossierBase;
 		for (int i=0; i<itemCnt; i++) {
-			dossierMod += items[i].itemDossier;
+			dossier += items[i].itemDossier;
 		}
 	}
 
@@ -107,11 +107,13 @@
 			items[itemCnt++] = item;// add to counter after
 		else
 			enLog(logs, "inventory full");
+		calcStats();
 	}
 
 	void Player::removeItem(int loc) { // could return but maybe later
 		for (int i=loc; i<itemCnt-loc; i++) { // kinda smart
 			items[i] = items[i+1];
 		} // print upto itemCnt
+		calcStats();
 	}
 //};
