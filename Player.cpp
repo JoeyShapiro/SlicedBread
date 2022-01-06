@@ -18,7 +18,9 @@
 	}
 	int mapx = 0; // here for now
 	int mapy = 0; // maybe each character, or map has character array, map array, because then would check each characeter in total array, rather than array in each map
+	int itemCnt = 0;
 	Item items[10];
+	Dossier dossierMod;
 
 	void Player::handleInput(char key, bool isCharacter[]) { // maybe make being (k, p) // has to be here ??
 		int arrx = x-1; // took a while to find, is char starts at 0, player starts at 1, maybe draw char, needs that place i think
@@ -90,5 +92,26 @@
 			enLog(logs, "new cell right");
 		}
 		moveC(); // maybe move
+	}
+
+	void Player::calcStats() {
+		dossierMod.zero(); // zero out
+		dossierMod += dossier;
+		for (int i=0; i<itemCnt; i++) {
+			dossierMod += items[i].itemDossier;
+		}
+	}
+
+	void Player::addItem(Item item) {
+		if (itemCnt < 10)
+			items[itemCnt++] = item;// add to counter after
+		else
+			enLog(logs, "inventory full");
+	}
+
+	void Player::removeItem(int loc) { // could return but maybe later
+		for (int i=loc; i<itemCnt-loc; i++) { // kinda smart
+			items[i] = items[i+1];
+		} // print upto itemCnt
 	}
 //};

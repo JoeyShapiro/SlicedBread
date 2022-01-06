@@ -25,15 +25,15 @@ Player player;
 
 void reDrawStats() { // maybe in Player
 	mvwprintw(stats, 0, 1, "Player Stats");
-	mvwprintw(stats, 1, 1, "Health: %d", player.dossier.health);
-	mvwprintw(stats, 2, 1, "AP:     %d", player.dossier.ap);
-	mvwprintw(stats, 3, 1, "Phys:   %d", player.dossier.phys);
-	mvwprintw(stats, 4, 1, "Acc:    %d", player.dossier.acc);
-	mvwprintw(stats, 5, 1, "Armor:  %d", player.dossier.armor);
-	mvwprintw(stats, 6, 1, "Crit C: %d", player.dossier.critC);
-	mvwprintw(stats, 7, 1, "Crit M: %.2f", player.dossier.critM);
-	mvwprintw(stats, 8, 1, "Def:    %d", player.dossier.def);
-	mvwprintw(stats, 9, 1, "Def C:  %d", player.dossier.defC);
+	mvwprintw(stats, 1, 1, "Health: %d", player.dossierMod.health);
+	mvwprintw(stats, 2, 1, "AP:     %d", player.dossierMod.ap);
+	mvwprintw(stats, 3, 1, "Phys:   %d", player.dossierMod.phys);
+	mvwprintw(stats, 4, 1, "Acc:    %d", player.dossierMod.acc);
+	mvwprintw(stats, 5, 1, "Armor:  %d", player.dossierMod.armor);
+	mvwprintw(stats, 6, 1, "Crit C: %d", player.dossierMod.critC);
+	mvwprintw(stats, 7, 1, "Crit M: %.2f", player.dossierMod.critM);
+	mvwprintw(stats, 8, 1, "Def:    %d", player.dossierMod.def);
+	mvwprintw(stats, 9, 1, "Def C:  %d", player.dossierMod.defC);
 }
 
 void genMap() {
@@ -105,6 +105,17 @@ void mapCells() {
 	enLog(logs, "cells mapped");
 }
 
+void spawnStuff() {
+	srand(time(NULL));
+	for (int i=0; i<MAP_S; i++) {
+		for (int j=0; j<MAP_S; j++) {
+			if (!map[i][j])
+				continue;
+			cells[i][j].spawns();
+		}
+	}
+}
+
 void loadCell(bool isCharacter[]) {
 	//bool curCell = map[player.mapx][player.mapy];
 	for (int i=0; i<GAME_H; i++) {
@@ -146,6 +157,11 @@ void reDrawMenu() { // TODO maybe change wchich is shown or recreate each time
 		mvwprintw(menu, 4, MAP_S+2, "e Enemy");
 		mvwprintw(menu, 5, MAP_S+2, "D Chest");
 		mvwprintw(menu, 6, MAP_S+2, "E Elite");
+
+		mvwprintw(menu, 7, 1, "Items");
+		for (int i=0; i<player.itemCnt; i++) {
+			mvwprintw(menu, 8+i, 1, "%s", player.items[i].name.c_str());
+		}
 	}
 }
 
@@ -172,14 +188,20 @@ int main() {
 	bool isCharacter[row*col]; // make sure right order
 	genMap();
 	mapCells();
+	player.calcStats();
 	// TODO organize
-	for (int i = 0; i < 24; i++) { // find better way
-		cells[player.mapx][player.mapy].enemies[i].x = -1;
-		cells[player.mapx][player.mapy].enemies[i].y = -1;
+	for (int i=0; i<MAP_S; i++) {
+		for (int j=0; j<MAP_S; j++) {
+			for (int k = 0; k < 24; k++) { // find better way
+				cells[i][j].enemies[k].x = -1;
+				cells[i][j].enemies[k].y = -1;
+			}
+		}
 	}
+	spawnStuff();
 
 	// prelim
-	cells[player.mapx][player.mapy].enemies[0].setPos(3,3); // you can do this!?
+	//cells[player.mapx][player.mapy].enemies[0].setPos(3,3); // you can do this!?
 	for (int i = 0; i < 24; i++) {
 		if (cells[player.mapx][player.mapy].enemies[i].x != -1)
 			cells[player.mapx][player.mapy].enemies[i].moveC();

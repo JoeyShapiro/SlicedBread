@@ -7,9 +7,13 @@
 class Cell {
     public:
         char ground[GAME_H][GAME_W]; // separate types, they will need own place for stuff anyway
-        Interactable i[24];
+        Interactable inters[24];
         Enemy enemies[24]; // to fix "note: forward dec" and "unknown type" use "*", recursive dec is wierd
-        
+        bool isCharacters[GAME_W*GAME_H];
+
+    void addCol();
+
+    void spawns();
 };
 
 #endif

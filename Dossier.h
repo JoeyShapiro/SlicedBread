@@ -15,6 +15,10 @@ class Dossier {
 		int def;
 		int acc;
 		int armor;
+
+	void zero();
+
+	friend Dossier &operator+=(Dossier &A, Dossier& B);
 };
 
 #endif

@@ -6,7 +6,7 @@
 #include "common.h"
 #include "Item.h"
 
-class Interactable : Character {
+class Interactable : public Character {
     public:
         Item item;
 
