@@ -15,7 +15,7 @@ class Interactable : public Character {
 
     Item interact();
 
-    void remove();
+    void remove(bool rm);
 };
 
 #endif

@@ -43,7 +43,8 @@
 				}
 				if (x == cells[mapx][mapy].inters[i].x+1 && y == cells[mapx][mapy].inters[i].y) { // smarter i think, to not cause oob
 					Item item = cells[mapx][mapy].inters[i].interact();
-					addItem(item);
+					bool rm = addItem(item);
+					cells[mapx][mapy].inters[i].remove(rm);
 				}
 			}
 		} else if (key == 's' && isCharacter[arry+(arrx+1)*GAME_W]) {
@@ -56,7 +57,8 @@
 				}
 				if (x == cells[mapx][mapy].inters[i].x-1 && y == cells[mapx][mapy].inters[i].y) {
 					Item item = cells[mapx][mapy].inters[i].interact();
-					addItem(item);
+					bool rm = addItem(item);
+					cells[mapx][mapy].inters[i].remove(rm);
 				}
 			}
 		} else if (key == 'a' && isCharacter[(arry-1)+arrx*GAME_W]) {
@@ -69,7 +71,8 @@
 				}
 				if (x == cells[mapx][mapy].inters[i].x && y == cells[mapx][mapy].inters[i].y+1) {
 					Item item = cells[mapx][mapy].inters[i].interact();
-					addItem(item);
+					bool rm = addItem(item);
+					cells[mapx][mapy].inters[i].remove(rm);
 				}
 			}
 		} else if (key == 'd' && isCharacter[(arry+1)+arrx*GAME_W]) {
@@ -82,7 +85,8 @@
 				}
 				if (x == cells[mapx][mapy].inters[i].x && y == cells[mapx][mapy].inters[i].y-1) {
 					Item item = cells[mapx][mapy].inters[i].interact();
-					addItem(item);
+					bool rm = addItem(item);
+					cells[mapx][mapy].inters[i].remove(rm);
 				}
 			}
 		} else {
@@ -118,12 +122,15 @@
 		}
 	}
 
-	void Player::addItem(Item item) {
-		if (itemCnt < 10)
+	bool Player::addItem(Item item) { // is it proper to return true or false
+		if (itemCnt < 10) {
 			items[itemCnt++] = item;// add to counter after
-		else
+			calcStats();
+			return true;
+		} else {
 			enLog(logs, "inventory full");
-		calcStats();
+			return false;
+		}
 	}
 
 	void Player::removeItem(int loc) { // could return but maybe later

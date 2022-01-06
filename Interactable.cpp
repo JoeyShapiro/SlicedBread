@@ -10,9 +10,9 @@ void Interactable::moveC() {
 }
 
 Item Interactable::interact() { // do here yeah
-    setPos(-1, -1);
     return item;
 }
 
-void Interactable::remove() {
+void Interactable::remove(bool rm) {
+    setPos(-1, -1);
 }

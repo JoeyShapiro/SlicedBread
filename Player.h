@@ -16,7 +16,7 @@ class Player : public Being {
 
 	void calcStats();
 
-	void addItem(Item item);
+	bool addItem(Item item);
 
 	void removeItem(int loc);
 };
