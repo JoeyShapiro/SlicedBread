@@ -166,6 +166,34 @@ void reDrawMenu() { // TODO maybe change wchich is shown or recreate each time
 	}
 }
 
+void clearAll() {
+	wclear(game);
+	wclear(winLog);
+	wclear(stats);
+	wclear(menu);
+}
+
+void boxAll() {
+	box(game, '*', '*');
+	mvwprintw(game, 0, col/(4)-7, "world - (%d, %d)", player.mapx, player.mapy);
+	box(winLog, '*', '*');
+	box(stats, '*', '*');
+	box(menu, '*', '*');
+}
+
+void reDrawAll() {
+	reDrawStats(); // should be here... i think
+	reDrawMenu();
+	printQueue(logs);
+}
+
+void refreshAll() {
+	wrefresh(game);
+	wrefresh(winLog);
+	wrefresh(stats);
+	wrefresh(menu);
+}
+
 int main() {
 
 	// start ncurses
@@ -179,11 +207,7 @@ int main() {
 	winLog = newwin(row/3, col, row-8, 0);
 	stats = newwin(row-8, col/5, 0, col/2);
 	menu = newwin(row-8, col/3.3, 0, col/1.42); // what is this decimal nonsense
-	box(game, '*', '*');
-	mvwprintw(game, 0, col/4, "world - world"); // prints somewhere but also moves cursor
-	box(winLog, '*', '*');
-	box(stats, '*', '*');
-	box(menu, '*', '*');
+	boxAll();
 
 	Character characters[row*col]; // could draw with matrix (x, y) but value is easy
 	bool isCharacter[row*col]; // make sure right order
@@ -214,22 +238,14 @@ int main() {
 
 	player.moveC();
 	enLog(logs, "https://github.com/JoeyShapiro/SlicedBread");
-	wrefresh(game);			/* Print it on to the real screen */
-	wrefresh(winLog);
-	wrefresh(stats);
-	wrefresh(menu);
+	refreshAll();
+	bool turn = true; // better, true -> player turn
 	while (true) {
+		Cell currentCell = cells[player.mapx][player.mapy]; // maybe change when player changes
 		char k = kin(); // "up" is 3 characters, because its "]]^" or something, on console, i mite b smarte
 		// ^ maybe with handle input, so there is no room between, isChar and where can move
-		wclear(game);
-		wclear(winLog);
-		wclear(stats);
-		wclear(menu);
-		box(game, '*', '*');
-		mvwprintw(game, 0, col/(4)-7, "world - (%d, %d)", player.mapx, player.mapy);
-		box(winLog, '*', '*');
-		box(stats, '*', '*');
-		box(menu, '*', '*');
+		clearAll();
+		boxAll();
 		player.handleInput(k, isCharacter); // find how to make them all the same (be in for loop and check if player)
 		// ^ should ACTUALLy be here, makes sense, and gets most updated,, alines with what player "sees"
 		for (int i = 0; i < row*col; i++) // this was after loadCell(), zeroing it out
@@ -243,24 +259,19 @@ int main() {
 		//isCharacter[player.x+player.y*col] = true; // 5 + 5 * col = 1D loce x go oob, removing made e stop traveling
 		// but why did it change value, wait for ask, i bet it changed all to true which means 255, then -643...
 		for (int i = 0; i < 24; i++) { // for (Enemy e : cells[player.mapx][player.mapy].enemies) // does not work, causes overflow
-			cells[player.mapx][player.mapy].enemies[i].checkPulse();
-			if (cells[player.mapx][player.mapy].enemies[i].x != -1) {
-				cells[player.mapx][player.mapy].enemies[i].act(player, isCharacter, col);
-				cells[player.mapx][player.mapy].enemies[i].moveC(); // this would move/update but isChar would be delayed, now update then update isChar
-				isCharacter[(cells[player.mapx][player.mapy].enemies[i].y-1)+(cells[player.mapx][player.mapy].enemies[i].x-1)*GAME_W] = true; // YAY this caused error, x+y*col, made x go oob, removing made e stop traveling
+			currentCell.enemies[i].checkPulse();
+			if (currentCell.enemies[i].x != -1) {
+				currentCell.enemies[i].act(player, isCharacter, col);
+				currentCell.enemies[i].moveC(); // this would move/update but isChar would be delayed, now update then update isChar
+				isCharacter[(currentCell.enemies[i].y-1)+(currentCell.enemies[i].x-1)*GAME_W] = true; // YAY this caused error, x+y*col, made x go oob, removing made e stop traveling
 			}
-			if (cells[player.mapx][player.mapy].inters[i].x != -1) { // smert :P
-				cells[player.mapx][player.mapy].inters[i].moveC();
-				isCharacter[(cells[player.mapx][player.mapy].inters[i].y-1)+(cells[player.mapx][player.mapy].inters[i].x-1)*GAME_W] = true;
+			if (currentCell.inters[i].x != -1) { // smert :P
+				currentCell.inters[i].moveC();
+				isCharacter[(currentCell.inters[i].y-1)+(currentCell.inters[i].x-1)*GAME_W] = true;
 			}
 		}
-		reDrawStats(); // should be here... i think
-		reDrawMenu();
-		printQueue(logs);
-		wrefresh(game);
-		wrefresh(winLog);
-		wrefresh(stats);
-		wrefresh(menu);
+		reDrawAll();
+		refreshAll();
 	}
 	endwin();			/* End curses mode		  */
 
